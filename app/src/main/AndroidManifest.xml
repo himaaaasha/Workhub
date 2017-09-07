@@ -36,7 +36,8 @@
         <activity android:name=".SingleJobView" />
         <activity android:name=".MapLoadActivity" />
         <activity android:name=".EditJobActivity" />
-        <activity android:name=".SingleProfileActivity"></activity>
+        <activity android:name=".SingleProfileActivity" />
+        <activity android:name=".EditProfileActivity"></activity>
     </application>
 
 </manifest>

@@ -30,6 +30,10 @@ public class SingleProfileActivity extends AppCompatActivity {
 
     private TextView userName;
     private TextView userEmail;
+    private TextView prohomeaddress;
+    private TextView prowebsite;
+    private TextView protelephone;
+    private TextView probio;
     private EditText review;
 
     private Button callBTN;
@@ -40,6 +44,7 @@ public class SingleProfileActivity extends AppCompatActivity {
     RecyclerView review_list;
 
     private String tele;
+    private String userN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,10 @@ public class SingleProfileActivity extends AppCompatActivity {
 
         userName = (TextView) findViewById(R.id.singleProfileUserName);
         userEmail = (TextView) findViewById(R.id.singleProfileEmail);
+        protelephone = (TextView)findViewById(R.id.singleProfileTelephone);
+        prohomeaddress = (TextView)findViewById(R.id.singleProfileAddress);
+        prowebsite = (TextView)findViewById(R.id.singleProfileWebsite);
+        probio = (TextView)findViewById(R.id.singleProfileBio);
         review = (EditText) findViewById(R.id.addReviewET);
 
         callBTN = (Button) findViewById(R.id.singleProfileCallBTN);
@@ -69,6 +78,10 @@ public class SingleProfileActivity extends AppCompatActivity {
                 userName.setText((String) dataSnapshot.child("userName").getValue());
                 userEmail.setText((String) dataSnapshot.child("userEmail").getValue());
                 tele = (String) dataSnapshot.child("userTelephone").getValue();
+                protelephone.setText((String)dataSnapshot.child("userTelephone").getValue());
+                prohomeaddress.setText((String)dataSnapshot.child("userAddress").getValue());
+                prowebsite.setText((String)dataSnapshot.child("userWebsite").getValue());
+                probio.setText((String)dataSnapshot.child("userBio").getValue());
             }
 
             @Override
@@ -76,6 +89,20 @@ public class SingleProfileActivity extends AppCompatActivity {
 
             }
         });
+
+        workhubUsers.child(auth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userN = (String) dataSnapshot.child("userName").getValue();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
 
         callBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +148,7 @@ public class SingleProfileActivity extends AppCompatActivity {
                     String reviewid= workhubUsers.child(user_key).child("reviews").push().getKey();
                     Review newRe = new Review();
                     newRe.setReview(reviewText);
+                    newRe.setReviewedUserName(userN);
                     newRe.setReviewedUser(reviewingUser);
                     newRe.setReviewingUser(postingUser);
 
@@ -150,6 +178,7 @@ public class SingleProfileActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(ReviewViewHolder viewHolder, Review model, int position) {
                 viewHolder.setReview(model.getReview());
+                viewHolder.setReviewUser(model.getReviewedUserName());
             }
         };
         review_list.setAdapter(firebaseRecyclerAdapter);
@@ -169,10 +198,10 @@ public class SingleProfileActivity extends AppCompatActivity {
             jName.setText(review);
         }
 
-//        public void setReviewUser(String reuser){
-//            TextView jBudget = (TextView) mview.findViewById(R.id.reviewPostedUserTV);
-//            jBudget.setText(reuser);
-//        }
+        public void setReviewUser(String reuser){
+            TextView jBudget = (TextView) mview.findViewById(R.id.reviewPostedUserTV);
+            jBudget.setText(reuser);
+        }
     }
 
 

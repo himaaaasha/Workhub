@@ -140,15 +140,15 @@ public class SingleJobView extends AppCompatActivity {
         postedUserCardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (posteduserid.equals(auth.getCurrentUser().getUid()))
-//                {
-//
-//                }
-//                else {
+                if (posteduserid.equals(auth.getCurrentUser().getUid()))
+                {
+
+                }
+                else {
                     Intent intent = new Intent(SingleJobView.this, SingleProfileActivity.class);
                     intent.putExtra("user_id", posteduserid);
                     startActivity(intent);
-//                }
+                }
 
             }
         });
