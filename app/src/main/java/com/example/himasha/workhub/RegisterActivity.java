@@ -72,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String userPass = password.getText().toString().trim();
                 String userConfPass = confPassword.getText().toString().trim();
 
-                if (!TextUtils.isEmpty(userEmail) || !TextUtils.isEmpty(userPass) || !TextUtils.isEmpty(userConfPass) || !TextUtils.isEmpty(userName) || !TextUtils.isEmpty(userTelephone))
+                if (!TextUtils.isEmpty(userEmail) && !TextUtils.isEmpty(userPass) && !TextUtils.isEmpty(userConfPass) && !TextUtils.isEmpty(userName) && !TextUtils.isEmpty(userTelephone))
                 {
                     if (validateEmail(userEmail)== true)
                     {

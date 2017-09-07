@@ -29,9 +29,9 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/job_list"
-        android:layout_width="414dp"
-        android:layout_height="510dp"
-        tools:layout_editor_absoluteX="0dp"
+        android:layout_width="412dp"
+        android:layout_height="536dp"
+        tools:layout_editor_absoluteX="2dp"
         tools:layout_editor_absoluteY="8dp">
 
     </android.support.v7.widget.RecyclerView>

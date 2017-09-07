@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark"
                 android:textColor="@color/colorWhite"
-                android:text="REGISTER" />
+                android:text="LOGIN" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

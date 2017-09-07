@@ -232,7 +232,7 @@ public class SingleJobView extends AppCompatActivity {
                         Job.class,
                         R.layout.job_row,
                         SuggesViewHolder.class,
-                        workhubJobs.orderByChild("jobKeyWord").equalTo((String) dataSnapshot.child("jobKeyWord").getValue()).limitToLast(1)
+                        workhubJobs.orderByChild("jobKeyWord").equalTo((String) dataSnapshot.child("jobKeyWord").getValue()).limitToLast(5)
                 ) {
                     @Override
                     protected void populateViewHolder(SuggesViewHolder viewHolder, Job model, int position) {
