@@ -10,6 +10,8 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -34,6 +36,8 @@ public class AddJobActivity extends AppCompatActivity {
     private EditText addJobName;
     private EditText addJobDesc;
     private EditText addJobBudget;
+    private Button submitjob;
+    private AutoCompleteTextView addjobSkills;
 
     private String addJobLocation;
 
@@ -58,9 +62,18 @@ public class AddJobActivity extends AppCompatActivity {
         workhub = FirebaseDatabase.getInstance().getReference().child("jobs");
         workhubUsers = FirebaseDatabase.getInstance().getReference().child("users");
 
+        String[] skills = {"Home Cleaner", "Nanny", "Baker", "Cook", "Maid", "Fllor technician", "Pet Sitter", "Plumber"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this, android.R.layout.select_dialog_item, skills);
+
         addJobName = (EditText)findViewById(R.id.addjobJobNameET);
         addJobDesc = (EditText)findViewById(R.id.addjobDescET);
         addJobBudget = (EditText)findViewById(R.id.addjobBudgetET);
+        submitjob = (Button)findViewById(R.id.submitjobBTN);
+        addjobSkills = (AutoCompleteTextView)findViewById(R.id.addjobSkilltET);
+        addjobSkills.setThreshold(1);
+        addjobSkills.setAdapter(adapter);
 
         PlaceAutocompleteFragment places= (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -105,83 +118,76 @@ public class AddJobActivity extends AppCompatActivity {
 
             }
         });
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.save_menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+        submitjob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String jname = addJobName.getText().toString();
+                final String jdesc = addJobDesc.getText().toString();
+                final String jbudget = addJobBudget.getText().toString();
+                final String skill = addjobSkills.getText().toString();
+                if (!TextUtils.isEmpty(jname) && !TextUtils.isEmpty(jdesc) && !TextUtils.isEmpty(jbudget) && !TextUtils.isEmpty(addJobLocation) && !TextUtils.isEmpty(skill))
+                {
+                    builder.setTitle("Confirm");
+                    builder.setMessage("Are you sure you want to post this job?");
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.save)
-        {
-            final String jname = addJobName.getText().toString();
-            final String jdesc = addJobDesc.getText().toString();
-            final String jbudget = addJobBudget.getText().toString();
-            if (!TextUtils.isEmpty(jname) && !TextUtils.isEmpty(jdesc) && !TextUtils.isEmpty(jbudget) && !TextUtils.isEmpty(addJobLocation))
-            {
-                builder.setTitle("Confirm");
-                builder.setMessage("Are you sure you want to post this job?");
+                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
-                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(DialogInterface dialog, int which) {
 
 
 
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy");
-                        final String jdate = sdf.format(new Date());
+                            SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy");
+                            final String jdate = sdf.format(new Date());
 
-                        String juid = auth.getCurrentUser().getUid();
+                            String juid = auth.getCurrentUser().getUid();
 
-                        String jobId = workhub.push().getKey();
+                            String jobId = workhub.push().getKey();
 
-                        Job newJob = new Job();
-                        newJob.setJobName(jname);
-                        newJob.setJobDesc(jdesc);
-                        newJob.setJobBudget(jbudget);
-                        newJob.setJobLocationName(addJobLocation);
-                        newJob.setJobLocationLat(tripLat);
-                        newJob.setJobLocationLong(tripLong);
-                        newJob.setJobPostedDate(jdate);
-                        newJob.setJobPostedUserId(juid);
-                        newJob.setJobPostedUserName(userName);
-                        newJob.setJobStatus("Available");
+                            Job newJob = new Job();
+                            newJob.setJobName(jname);
+                            newJob.setJobDesc(jdesc);
+                            newJob.setJobBudget(jbudget);
+                            newJob.setJobLocationName(addJobLocation);
+                            newJob.setJobLocationLat(tripLat);
+                            newJob.setJobLocationLong(tripLong);
+                            newJob.setJobPostedDate(jdate);
+                            newJob.setJobPostedUserId(juid);
+                            newJob.setJobKeyWord(skill);
+                            newJob.setJobPostedUserName(userName);
+                            newJob.setJobStatus("Available");
 
-                        workhub.child(jobId).setValue(newJob);
+                            workhub.child(jobId).setValue(newJob);
 
-                        Toast.makeText(AddJobActivity.this,"Job added successfuly",Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
+                            Toast.makeText(AddJobActivity.this,"Job added successfuly",Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
 
-                        startActivity(new Intent(AddJobActivity.this,FeedActivity.class));
-                        finish();
-                    }
-                });
+                            startActivity(new Intent(AddJobActivity.this,FeedActivity.class));
+                            finish();
+                        }
+                    });
 
-                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                        // Do nothing
-                        dialog.dismiss();
-                    }
-                });
+                            // Do nothing
+                            dialog.dismiss();
+                        }
+                    });
 
-                AlertDialog alert = builder.create();
-                alert.show();
+                    AlertDialog alert = builder.create();
+                    alert.show();
 
+                }
+                else
+                {
+                    Toast.makeText(AddJobActivity.this,"You cannot have one or more empty fields!",Toast.LENGTH_SHORT).show();
+                }
             }
-            else
-            {
-                Toast.makeText(AddJobActivity.this,"You cannot have one or more empty fields!",Toast.LENGTH_SHORT).show();
-            }
-
-        }
-        return super.onOptionsItemSelected(item);
-
+        });
     }
+
 }

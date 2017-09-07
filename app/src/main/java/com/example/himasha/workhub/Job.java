@@ -13,13 +13,14 @@ public class Job {
     private String jobPostedUserId;
     private String jobPostedUserName;
     private String jobStatus;
+    private String jobKeyWord;
     private Double jobLocationLong;
     private Double jobLocationLat;
 
     public Job() {
     }
 
-    public Job(String jobName, String jobDesc, String jobBudget, String jobLocationName, String jobPostedDate, String jobPostedUserId, String jobPostedUserName, String jobStatus, Double jobLocationLong, Double jobLocationLat) {
+    public Job(String jobName, String jobDesc, String jobBudget, String jobLocationName, String jobPostedDate, String jobPostedUserId, String jobPostedUserName, String jobStatus, String jobKeyWord, Double jobLocationLong, Double jobLocationLat) {
         this.jobName = jobName;
         this.jobDesc = jobDesc;
         this.jobBudget = jobBudget;
@@ -28,6 +29,7 @@ public class Job {
         this.jobPostedUserId = jobPostedUserId;
         this.jobPostedUserName = jobPostedUserName;
         this.jobStatus = jobStatus;
+        this.jobKeyWord = jobKeyWord;
         this.jobLocationLong = jobLocationLong;
         this.jobLocationLat = jobLocationLat;
     }
@@ -94,6 +96,14 @@ public class Job {
 
     public void setJobStatus(String jobStatus) {
         this.jobStatus = jobStatus;
+    }
+
+    public String getJobKeyWord() {
+        return jobKeyWord;
+    }
+
+    public void setJobKeyWord(String jobKeyWord) {
+        this.jobKeyWord = jobKeyWord;
     }
 
     public Double getJobLocationLong() {
