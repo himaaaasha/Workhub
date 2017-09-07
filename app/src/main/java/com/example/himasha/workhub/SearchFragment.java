@@ -82,7 +82,13 @@ public class SearchFragment extends Fragment {
 
     private void initViews(View view) {
 
-        String[] skills = {"Home Cleaner", "Nanny", "Baker", "Cook", "Maid", "Fllor technician", "Pet Sitter", "Plumber"};
+        String[] skills = {"Home Cleaner", "Nanny", "Baker", "Cook", "Maid", "Fllor technician", "Pet Sitter", "Plumber"
+                , "Waiter", "General Cashier", "Chef", "Housekeeper", "Kitchen Technician", "Carpenter" , "Driver" , "Brickmason"
+                ,"Cement Mason", "Blockmason", "Concrete Finisher", "Drywall and Ceiling Tile Installer", "Drywall and Ceiling Tile Installer"
+                ,"Tile and Marble Setter", "Pipe Fitter", "Pipe Fitter", "Maintenance and Repair Worker", "Carpet Installer"
+                ,"Electric Motor, Power Tool, and Related Repairer", "Electrician", "Electrical Power-Line Installer and Repairer"
+                ,"Welder", "Refrigeration Mechanic and Installer" , "Refrigeration Mechanic and Installer", "Motorcycle Mechanic"
+                ,"Mechanical Engineering Technician", "Gardener"};
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>
                 (this.getActivity(), android.R.layout.select_dialog_item, skills);
